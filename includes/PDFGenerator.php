@@ -73,8 +73,16 @@ class PDFGenerator {
         $this->pdf->Cell(0, 8, $this->reservation['quantite'] . utf8_decode(' place(s)'), 0, 1);
         $this->pdf->Cell(60, 8, utf8_decode('Prix unitaire:'), 0);
         $this->pdf->Cell(0, 8, number_format($this->ticket['prix_base'], 2) . ' EUR', 0, 1);
-        $this->pdf->Cell(60, 8, utf8_decode('Prix total:'), 0);
-        $this->pdf->Cell(0, 8, number_format($this->reservation['prix_total'], 2) . ' EUR', 0, 1);
+        // Sous-total hors frais
+        $sous_total = $this->ticket['prix_base'] * $this->reservation['quantite'];
+        $frais_service = $sous_total * 0.05;
+        $total_ttc = $sous_total + $frais_service;
+        $this->pdf->Cell(60, 8, utf8_decode('Sous-total:'), 0);
+        $this->pdf->Cell(0, 8, number_format($sous_total, 2) . ' EUR', 0, 1);
+        $this->pdf->Cell(60, 8, utf8_decode('Frais de service (5%):'), 0);
+        $this->pdf->Cell(0, 8, number_format($frais_service, 2) . ' EUR', 0, 1);
+        $this->pdf->Cell(60, 8, utf8_decode('Total TTC:'), 0);
+        $this->pdf->Cell(0, 8, number_format($total_ttc, 2) . ' EUR', 0, 1);
         $this->pdf->Ln(10);
 
         // Ligne de séparation
