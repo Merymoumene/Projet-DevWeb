@@ -38,7 +38,7 @@ $result = $stmt->get_result();
 <head>
     <meta charset="UTF-8">
     <title>Calendrier des Matchs</title>
-    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/header1.css">
     <style>
         body {
             font-family: 'Segoe UI', sans-serif;
@@ -116,7 +116,7 @@ $result = $stmt->get_result();
     </style>
 </head>
 <body>
-<?php include 'includes/header.php'; ?>
+<?php include 'header1.php'; ?>
 <p style="margin-top: 50px;">.</p>
 <div class="container">
     <h2>Calendrier des Matchs</h2>

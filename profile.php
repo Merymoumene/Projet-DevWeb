@@ -91,11 +91,11 @@ $reponses_admin = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 <head>
     <meta charset="UTF-8">
     <title>Mon Profil</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/style1.css">
+    <link rel="stylesheet" href="css/header1.css">
 </head>
 <body>
-    <?php include 'includes/header.php'; ?>
+    <?php include 'header1.php'; ?>
 
     <main class="profile-container">
         <div class="profile-header">
@@ -149,7 +149,14 @@ $reponses_admin = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
                                     <p><i class="fas fa-calendar"></i> <?= htmlspecialchars($reservation['date_match']) ?> à <?= htmlspecialchars($reservation['heure_match']) ?></p>
                                     <p><i class="fas fa-map-marker-alt"></i> <?= htmlspecialchars($reservation['lieu']) ?></p>
                                     <p><i class="fas fa-ticket-alt"></i> <?= htmlspecialchars($reservation['ticket_type']) ?> (<?= $reservation['quantite'] ?> place(s))</p>
-                                    <p><i class="fas fa-euro-sign"></i> <?= number_format($reservation['prix_total'], 2) ?> €</p>
+                                    <?php
+                                    $sous_total = $reservation['prix_total'] / 1.05;
+                                    $frais_service = $sous_total * 0.05;
+                                    $total_ttc = $sous_total + $frais_service;
+                                    ?>
+                                    <p><i class="fas fa-euro-sign"></i> Sous-total : <?= number_format($sous_total, 2) ?> €</p>
+                                    <p><i class="fas fa-euro-sign"></i> Frais de service (5%) : <?= number_format($frais_service, 2) ?> €</p>
+                                    <p><i class="fas fa-euro-sign"></i> Total TTC : <?= number_format($total_ttc, 2) ?> €</p>
                                 </div>
                                 <div class="reservation-actions">
                                     <button class="btn btn-secondary" onclick="downloadReceipt(<?= $reservation['id'] ?>)">

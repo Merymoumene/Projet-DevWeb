@@ -104,8 +104,16 @@ $pdf->Cell(60, 8, utf8_decode('Quantité:'), 0);
 $pdf->Cell(0, 8, $reservation['quantite'] . utf8_decode(' place(s)'), 0, 1);
 $pdf->Cell(60, 8, utf8_decode('Prix unitaire:'), 0);
 $pdf->Cell(0, 8, number_format($reservation['prix_total'] / $reservation['quantite'], 2) . ' EUR', 0, 1);
-$pdf->Cell(60, 8, utf8_decode('Prix total:'), 0);
-$pdf->Cell(0, 8, number_format($reservation['prix_total'], 2) . ' EUR', 0, 1);
+// Sous-total hors frais
+$sous_total = ($reservation['prix_total']) / 1.05;
+$frais_service = $sous_total * 0.05;
+$total_ttc = $sous_total + $frais_service;
+$pdf->Cell(60, 8, utf8_decode('Sous-total:'), 0);
+$pdf->Cell(0, 8, number_format($sous_total, 2) . ' EUR', 0, 1);
+$pdf->Cell(60, 8, utf8_decode('Frais de service (5%):'), 0);
+$pdf->Cell(0, 8, number_format($frais_service, 2) . ' EUR', 0, 1);
+$pdf->Cell(60, 8, utf8_decode('Total TTC:'), 0);
+$pdf->Cell(0, 8, number_format($total_ttc, 2) . ' EUR', 0, 1);
 $pdf->Ln(10);
 
 // Ligne de séparation

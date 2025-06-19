@@ -58,6 +58,10 @@ foreach ($quantities as $ticket_id => $quantite) {
     }
 }
 
+// Calcul des frais de service (5%)
+$frais_service = $prix_total * 0.05;
+$total_avec_frais = $prix_total + $frais_service;
+
 if (empty($tickets)) {
     die("Aucun ticket sélectionné.");
 }
@@ -68,14 +72,14 @@ if (empty($tickets)) {
 <head>
     <meta charset="UTF-8">
     <title>Paiement</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/style1.css">
+    <link rel="stylesheet" href="css/header1.css">
     <link rel="stylesheet" href="css/paiement.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <script src="https://www.paypal.com/sdk/js?client-id=<?= PAYPAL_CLIENT_ID ?>&currency=EUR"></script>
 </head>
 <body>
-    <?php include 'includes/header.php'; ?>
+    <?php include 'header1.php'; ?>
     <main class="payment-container">
         <div class="payment-summary">
             <h1>Récapitulatif de votre commande</h1>
@@ -97,7 +101,9 @@ if (empty($tickets)) {
                         <p><strong>Sous-total :</strong> <?= number_format($ticket['total'], 2) ?> €</p>
                     </div>
                 <?php endforeach; ?>
-                <p class="total-price"><strong>Prix total :</strong> <?= number_format($prix_total, 2) ?> €</p>
+                <p><strong>Sous-total :</strong> <?= number_format($prix_total, 2) ?> €</p>
+                <p><strong>Frais de service (5%) :</strong> <?= number_format($frais_service, 2) ?> €</p>
+                <p class="total-price"><strong>Total à payer :</strong> <?= number_format($total_avec_frais, 2) ?> €</p>
             </div>
 
             <div class="payment-method">
@@ -172,7 +178,7 @@ if (empty($tickets)) {
                 return actions.order.create({
                     purchase_units: [{
                         amount: {
-                            value: '<?= $prix_total ?>'
+                            value: '<?= number_format($total_avec_frais, 2, '.', '') ?>'
                         },
                         description: 'Tickets pour <?= htmlspecialchars($match['equipe1']) ?> vs <?= htmlspecialchars($match['equipe2']) ?>'
                     }]
@@ -195,7 +201,8 @@ if (empty($tickets)) {
                 order_id: details.id,
                 match_id: <?= $match_id ?>,
                 tickets: ticketsData,
-                prix_total: <?= $prix_total ?>,
+                prix_total: <?= number_format($total_avec_frais, 2, '.', '') ?>,
+                frais_service: <?= number_format($frais_service, 2, '.', '') ?>,
                 paypal_details: details
             })
         })
@@ -233,11 +240,11 @@ if (empty($tickets)) {
                         alert('Erreur lors de l\'affichage de la confirmation : ' + err.message);
                     });
             } else {
-                alert('Erreur lors du traitement du paiement : ' + (data.error || 'Une erreur inconnue est survenue'));
+                alert('Erreur lors du paiement : ' + data.message);
             }
         })
         .catch(error => {
-            alert('Une erreur est survenue lors du traitement du paiement. Détails : ' + error.message);
+            alert('Erreur lors du paiement : ' + error.message);
         });
     });
 },

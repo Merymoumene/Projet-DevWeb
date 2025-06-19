@@ -84,13 +84,13 @@ $messages_non_repondu = $conn->query("
 <head>
     <meta charset="UTF-8">
     <title>Profil Administrateur</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/style1.css">
+    <link rel="stylesheet" href="css/header1.css">
     <link rel="stylesheet" href="css/admin_profile.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <?php include 'includes/header.php'; ?>
+    <?php include 'header1.php'; ?>
 
     <main class="profile-container">
         <div class="profile-header">

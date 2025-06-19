@@ -7,13 +7,13 @@ session_start();
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Calendrier des Matchs</title>
-  <link rel="stylesheet" href="css/style.css" />
-  <link rel="stylesheet" href="css/header.css">
+  <link rel="stylesheet" href="css/style1.css" />
   <link rel="stylesheet" href="css/calendrier.css">
+  <link rel="stylesheet" href="css/header1.css">
 </head>
 <body>
-  <?php include 'includes/header.php'; ?>
 
+<?php include 'header1.php'; ?>
   <main>
     <h1>Calendrier des Matchs</h1>
     <div id="calendrier-matchs">

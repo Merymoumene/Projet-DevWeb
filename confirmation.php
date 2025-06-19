@@ -58,7 +58,14 @@ if (!$reservation) {
                 <p><strong>Lieu :</strong> <?= htmlspecialchars($reservation['lieu']) ?></p>
                 <p><strong>Type de ticket :</strong> <?= htmlspecialchars($reservation['type']) ?></p>
                 <p><strong>Quantité :</strong> <?= $reservation['quantite'] ?></p>
-                <p><strong>Prix total :</strong> <?= number_format($reservation['prix_total'], 2) ?> €</p>
+                <?php
+                $sous_total = $reservation['prix_total'] / 1.05;
+                $frais_service = $sous_total * 0.05;
+                $total_ttc = $sous_total + $frais_service;
+                ?>
+                <p><strong>Sous-total :</strong> <?= number_format($sous_total, 2) ?> €</p>
+                <p><strong>Frais de service (5%) :</strong> <?= number_format($frais_service, 2) ?> €</p>
+                <p><strong>Total TTC :</strong> <?= number_format($total_ttc, 2) ?> €</p>
                 <p><strong>Transaction PayPal :</strong> <?= htmlspecialchars($reservation['transaction_id']) ?></p>
             </div>
 

@@ -39,9 +39,8 @@ $messages = $conn->query("
 <head>
     <meta charset="UTF-8">
     <title>Gestion des Messages - Administration</title>
-    <link rel="stylesheet" href="css/header.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/admin_messages.css">
+    <link rel="stylesheet" href="css/header1.css">
+    <link rel="stylesheet" href="css/style1.css">
     <style>
         .messages-container {
             max-width: 1200px;
@@ -149,12 +148,10 @@ $messages = $conn->query("
     </style>
 </head>
 <body>
-    <?php include 'includes/header.php'; ?>
+    <?php include 'header1.php'; ?>
 
     <div class="messages-container">
-        <a href="admin_profile.php" class="back-link">
-            <i class="fas fa-arrow-left"></i> Retour au profil administrateur
-        </a>
+
 
         <h1>Gestion des Messages</h1>
 

@@ -51,14 +51,14 @@ while ($trans = $res_trans->fetch_assoc()) {
 <head>
     <meta charset="UTF-8">
     <title>Réserver - <?= htmlspecialchars($match['equipe1']) ?> vs <?= htmlspecialchars($match['equipe2']) ?></title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/style1.css">
+    <link rel="stylesheet" href="css/header1.css">
     <link rel="stylesheet" href="css/reserver.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <script src="https://www.paypal.com/sdk/js?client-id=AXclZqGenXlgul_HMXX3-qT1g1ZaI_d0sdukqWRT2RrV0IO5ZYu6weph4yaNkWUBfpaM_zOWqyb6SghM"></script>
 </head>
 <body>
-    <?php include 'includes/header.php'; ?>
+    <?php include 'header1.php'; ?>
 
     <main class="reservation-container">
         <div class="reservation-header">

@@ -62,6 +62,10 @@ try {
     $match_id = $data['match_id'];
     $tickets = $data['tickets'];
     $reservation_ids = [];
+    
+    // Récupérer le montant total TTC et les frais de service transmis
+    $prix_total_ttc = isset($data['prix_total']) ? floatval($data['prix_total']) : 0;
+    $frais_service = isset($data['frais_service']) ? floatval($data['frais_service']) : 0;
 
     $conn->begin_transaction();
 
@@ -75,6 +79,10 @@ try {
         $prix = $ticket['prix'];
         $total = $quantite * $prix;
 
+        // Ajout de la part des frais de service pour ce ticket
+        $part_frais = ($prix_total_ttc > 0) ? ($total / ($prix_total_ttc - $frais_service)) * $frais_service : 0;
+        $total_ttc = $total + $part_frais;
+
         // Vérifier l'existence du ticket
         $check_stmt = $conn->prepare("SELECT id FROM tickets WHERE id = ?");
         $check_stmt->bind_param("i", $ticket_id);
@@ -83,11 +91,11 @@ try {
             throw new Exception("Ticket introuvable : ID " . $ticket_id);
         }
 
-        // Insérer dans reservations
+        // Insérer dans reservations (prix_total = total TTC)
         $stmt = $conn->prepare("INSERT INTO reservations (utilisateur_id, ticket_id, quantite, prix_total, date_reservation) VALUES (?, ?, ?, ?, NOW())");
         if (!$stmt) throw new Exception("Erreur SQL réservation : " . $conn->error);
 
-        $stmt->bind_param("iiid", $_SESSION['user_id'], $ticket_id, $quantite, $total);
+        $stmt->bind_param("iiid", $_SESSION['user_id'], $ticket_id, $quantite, $total_ttc);
         if (!$stmt->execute()) {
             throw new Exception("Échec insertion réservation : " . $stmt->error);
         }
@@ -95,11 +103,11 @@ try {
         $reservation_id = $conn->insert_id;
         $reservation_ids[] = $reservation_id;
 
-        // Insérer dans paiements
+        // Insérer dans paiements (montant = total TTC)
         $stmt = $conn->prepare("INSERT INTO paiements (reservation_id, montant, date_paiement, statut) VALUES (?, ?, NOW(), 'completed')");
         if (!$stmt) throw new Exception("Erreur SQL paiement : " . $conn->error);
 
-        $stmt->bind_param("id", $reservation_id, $total);
+        $stmt->bind_param("id", $reservation_id, $total_ttc);
         if (!$stmt->execute()) {
             throw new Exception("Échec insertion paiement : " . $stmt->error);
         }
