@@ -44,11 +44,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_match'])) {
 if (isset($_POST['add_ticket'])) {
     $match_id = $_POST['match_id'];
     $type = $_POST['type'];
-    $prix = $_POST['prix'];
-    $quantite_disponible = $_POST['quantite_disponible'];
+    $prix_base = $_POST['prix_base'];
+    $entree = $_POST['entree'];
+    $numero_place = $_POST['numero_place'];
+    $description = $_POST['description'];
 
-    $stmt = $conn->prepare("INSERT INTO tickets (match_id, type, prix, quantite_disponible) VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("isdi", $match_id, $type, $prix, $quantite_disponible);
+    $stmt = $conn->prepare("INSERT INTO tickets (match_id, type, prix_base, entree, numero_place, description) VALUES (?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("isdsss", $match_id, $type, $prix_base, $entree, $numero_place, $description);
     
     if ($stmt->execute()) {
         $success = "Ticket ajouté avec succès.";
@@ -204,12 +206,20 @@ $messages_non_repondu = $conn->query("
                         <input type="text" name="type" id="type" required placeholder="ex: VIP, Standard, etc.">
                     </div>
                     <div class="form-group">
-                        <label for="prix">Prix (€)</label>
-                        <input type="number" name="prix" id="prix" step="0.01" min="0" required>
+                        <label for="prix_base">Prix de base (€)</label>
+                        <input type="number" name="prix_base" id="prix_base" step="0.01" min="0" required>
                     </div>
                     <div class="form-group">
-                        <label for="quantite_disponible">Quantité disponible</label>
-                        <input type="number" name="quantite_disponible" id="quantite_disponible" min="1" required>
+                        <label for="entree">Entrée</label>
+                        <input type="text" name="entree" id="entree" maxlength="10" required placeholder="ex: A, B, C...">
+                    </div>
+                    <div class="form-group">
+                        <label for="numero_place">Numéro de place</label>
+                        <input type="text" name="numero_place" id="numero_place" maxlength="20" required placeholder="ex: 12A, 15B...">
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea name="description" id="description" rows="2" placeholder="Optionnel"></textarea>
                     </div>
                     <button type="submit" name="add_ticket" class="btn btn-primary">Ajouter le ticket</button>
                 </form>
